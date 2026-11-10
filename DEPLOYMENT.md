@@ -1,6 +1,18 @@
 # 免費部署方案
 
-依 2026/11/10 查閱的官方文件整理。此 App 為純靜態檔案，所有反查在手機執行，不需要購買伺服器或資料庫。以下免費額度可能調整，實際以部署當時官方方案為準。目前僅完成本機改寫，尚未建立遠端 repository 或發布網站。
+依 2026/11/10 查閱的官方文件整理。此 App 為純靜態檔案，所有反查在手機執行，不需要購買伺服器或資料庫。以下免費額度可能調整，實際以部署當時官方方案為準。
+
+## 已採用：GitHub Pages
+
+- 網站：https://jacky7987.github.io/ziwei-reverse-lookup/
+- 公開 repository：https://github.com/jacky7987/ziwei-reverse-lookup
+- 自動部署：[Test and deploy GitHub Pages](https://github.com/jacky7987/ziwei-reverse-lookup/actions/workflows/pages.yml)
+- GitHub repository 根目錄對應本機 `web/`，iOS 原始專案仍保留在本機。
+- Pages Source 已選 GitHub Actions；使用平台預設網域並強制 HTTPS。
+- `main` 更新後自動檢查語法、執行 15 項測試及建置，成功後只發布 `dist/`。PR 只執行檢查。
+- 回復舊版可 revert 引入問題的 commit，經同一流程測試後重新部署。
+
+首輪部署已成功，macOS Safari 的正式網站已驗證範例反查與西元日期，並顯示「已可離線使用」。iPhone 主畫面安裝與飛航模式離線重開仍待實機確認。
 
 ## 選擇建議
 
@@ -33,7 +45,7 @@ npm --prefix web run package
 
 | 平台 | 選定後的設定 |
 | --- | --- |
-| GitHub Pages | 建立 Git repository，Actions 執行 `npm --prefix web run build`，上傳 `web/dist` 為 Pages artifact。工作流程待選定平台後加入，避免現在就觸發公開部署。 |
+| GitHub Pages | 已完成。獨立 Web repository 的 Actions 執行 `npm test`、`npm run build`，上傳 `dist` 為 Pages artifact。流程位於 `.github/workflows/pages.yml`。 |
 | Cloudflare Pages Git integration | repository root 設為專案根目錄；build command：`npm --prefix web run build`；output directory：`web/dist`。不需要環境變數。 |
 | Cloudflare Pages Direct Upload | 上傳 `web/ziwei-web.zip` 或拖曳 `web/dist`。選用前先決定是否要日後 Git 自動部署。 |
 | Netlify | 專案根目錄建置；build command：`npm --prefix web run build`；publish directory：`web/dist`，或使用手動上傳。 |
@@ -47,4 +59,4 @@ npm --prefix web run package
 
 首次連網載入，等底部顯示「已可離線使用」後，再測試飛航模式關閉並重開 App。若瀏覽器清除網站儲存空間，需要重新連網下載一次。一般重新載入會清除目前查詢。
 
-上線驗收還需要確認：網址根目錄及所有模組成功載入、加入主畫面圖示、Golden Test、離線重開，以及有新版本時按提示更新。現階段已完成本機單檔的瀏覽器操作與快取模擬測試，尚未在正式 HTTPS 或 iPhone 實機驗證。
+上線驗收已確認正式 HTTPS 網站、Golden Test 與 service worker 安裝。仍需要用 iPhone 確認主畫面圖示、飛航模式關閉後重開，以及未來 App 檔案更新時的版本提示。

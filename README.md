@@ -1,6 +1,8 @@
 # 紫微反查 Web
 
-網站預定部署位置：`https://jacky7987.github.io/ziwei-reverse-lookup/`。此網址目前尚待部署完成驗證。
+網站：**https://jacky7987.github.io/ziwei-reverse-lookup/**
+
+Repository：https://github.com/jacky7987/ziwei-reverse-lookup
 
 GitHub repository 的根目錄對應本機的 `web/`。使用 GitHub Actions，在 `main` 更新後先驗證 JavaScript 語法與執行測試，再將 `dist/` 發布至 Pages。PR 僅執行檢查。
 
@@ -59,6 +61,7 @@ npm --prefix web run test:parity
 - 259,200 組 × 17 個值，共 4,406,400 個值，與 Swift 原版全部一致。
 - Dia 瀏覽器實際操作單檔版：初始數量、Golden Test、三筆多解、推導、無解診斷、年份錯誤與清除；desktop 與 320px 畫面無明顯排版溢出，console 無訊息。
 - 本環境禁止本機 HTTP listener。service worker 測試使用 Node 測試環境模擬 Cache API 與生命週期，不能取代正式 HTTPS 的安裝測試。部署後需在 iPhone Safari 確認「加入主畫面」、看到「已可離線使用」並關閉後離線重開；這些尚未實機驗證。
+- 已於 GitHub Pages 正式部署。[首次 Actions 執行](https://github.com/jacky7987/ziwei-reverse-lookup/actions/runs/42827128162) 的語法檢查、15 項測試、建置與部署全數成功。macOS Safari 已在正式 HTTPS 網址驗證 Golden Test 與 `1990/08/07`，並確認 service worker 安裝後顯示「已可離線使用」。iPhone 加入主畫面及飛航模式離線重開仍待實機驗證。
 
 ## 規則及曆法限制
 
