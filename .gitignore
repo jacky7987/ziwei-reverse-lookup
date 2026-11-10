@@ -1,0 +1,8 @@
+/dist/
+/preview.html
+/ziwei-web.zip
+node_modules/
+.DS_Store
+.env
+.env.*
+!.env.example

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#161618" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="從命盤上的星曜位置，找回干支年、農曆生日與時辰。可離線使用的紫微反查工具。">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="紫微反查">
+  <title>紫微反查</title>
+  <link rel="icon" type="image/png" href="./icon-192.png">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#results">跳到反查結果</a>
+  <header class="toolbar">
+    <div class="toolbar-inner">
+      <a href="./" class="brand" aria-label="紫微反查首頁"><img src="./icon-192.png" alt="" width="32" height="32"><span>紫微反查</span></a>
+      <div class="toolbar-actions"><button id="help-button" class="text-button" type="button">使用說明</button><button id="clear-button" class="text-button" type="button">清除</button></div>
+    </div>
+  </header>
+  <main>
+    <div class="intro"><p class="eyebrow">從命盤，找回出生資料</p><h1>每一顆星，都是線索。</h1><p>選擇已知的星曜位置，即時找出符合的生日與時辰。</p></div>
+    <div id="update-banner" class="notice" hidden>有新版本可用。<button id="update-button" class="text-button" type="button">重新載入更新</button></div>
+    <div class="workspace">
+      <div class="conditions">
+        <section aria-labelledby="basic-title"><div class="section-heading"><h2 id="basic-title">基本條件</h2><span id="filled-count" class="secondary">已填 0 項</span></div><div id="basic-fields" class="group"></div><p class="footnote">不知道的位置可以留白。每次改選，都會自動更新結果。</p></section>
+        <details id="advanced" class="group disclosure"><summary>進階條件 <span id="advanced-count" class="secondary">選填</span></summary><div id="advanced-fields"></div></details>
+        <details class="group disclosure" id="calendar-settings"><summary>西元日期 <span id="year-summary" class="secondary"></span></summary><div class="settings-content"><p>出生年份範圍</p><div class="year-inputs"><label>從<input id="start-year" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" aria-describedby="year-help year-error" autocomplete="off"></label><span aria-hidden="true">～</span><label>到<input id="end-year" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" aria-describedby="year-help year-error" autocomplete="off"></label></div><p id="year-error" class="error" role="alert" hidden></p><p id="year-help" class="footnote">以農曆年開始的西元年份為準。六十甲子每 60 年重複，範圍越明確，越容易核對。</p></div></details>
+        <button type="button" id="example-button" class="example-button">試試範例：庚午年・六月十七 <span aria-hidden="true">↗</span></button>
+      </div>
+      <section id="results" class="results" aria-labelledby="results-title" aria-busy="true" tabindex="-1">
+        <div class="section-heading"><h2 id="results-title">反查結果</h2><span id="result-tag" class="tag">等待條件</span></div>
+        <div class="group result-panel"><div class="result-overview"><p class="eyebrow">符合目前條件</p><p class="count"><span id="result-count">…</span><span class="count-unit">組候選</span></p><p id="result-description" class="secondary">正在準備反查…</p></div><div id="recommendations" hidden></div><div id="candidates"></div><div id="conflicts"></div><p id="runtime-error" class="error" role="alert" hidden></p></div>
+        <details class="limitations"><summary>關於結果與排盤規則</summary><div><p>依原 App 的預設安星規則，保留所有完全符合的干支年、農曆月日與時辰。候選不會因為指定年份內沒有西元日期而被刪除。</p><p>普通月與閏月的同月序日期都會列出。閏月排法、早晚子時換日與真太陽時，仍需依原命盤確認。無法反推出出生分鐘或出生地。</p><p>西元換算使用瀏覽器內建農曆與台北時區。古代或遙遠未來日期可能因曆法資料版本不同而有差異。</p></div></details>
+        <p class="privacy-note">所有反查都在你的裝置完成，輸入內容不會上傳。</p>
+      </section>
+    </div>
+  </main>
+  <footer class="statusbar"><div><span id="connection-state">紫微反查 Web</span><span id="live-status" role="status" aria-live="polite" aria-atomic="true">準備反查中…</span></div></footer>
+  <dialog id="help-dialog" aria-labelledby="help-title"><div class="dialog-header"><h2 id="help-title">隨時打開，就能反查。</h2><button type="button" class="text-button" id="close-help">完成</button></div><div class="dialog-content"><h3>怎麼使用</h3><ol><li>輸入命盤上已知的星曜位置，不知道的保留「不知道」。</li><li>跟著建議補充條件。剩下 200 組以內時，自動列出所有候選。</li><li>調整西元年份範圍，點開候選核對日期與安星推導。</li></ol><h3>加入 iPhone 主畫面</h3><p>用 Safari 開啟網站，點「分享」→「加入主畫面」。之後可像 App 一樣開啟，不需要 Xcode 簽章。</p><h3>離線使用</h3><p>首次連網載入完成，底部顯示「已可離線使用」後，就能離線開啟及反查。若清除網站資料，需要重新連網載入。</p><p class="footnote">查詢僅保留在這次開啟的頁面中。重新開啟或更新會清除目前條件。</p></div></dialog>
+  <noscript><p class="notice">紫微反查需要 JavaScript。請在瀏覽器中啟用 JavaScript 後重新載入。</p></noscript>
+</body>
+</html>
